@@ -491,6 +491,7 @@ function applyXPathRule_(rule, path, options) {
  *    noTruncate:    Don't truncate values
  *    rawHeaders:    Don't prettify headers
  *    debugLocation: Prepend each value with the row & column it belongs in
+ *    euroLocale:    Turn 89.3 into 89,3
  */
 function defaultTransform_(data, row, column, options) {
   if (data[row][column] == null) {
@@ -515,6 +516,10 @@ function defaultTransform_(data, row, column, options) {
 
   if (hasOption_(options, "debugLocation")) {
     data[row][column] = "[" + row + "," + column + "]" + data[row][column];
+  }
+  if (hasOption_(options, "euroLocale") && data[row][column]) {
+    data[row][column] = data[row][column].replace(/,/g, "");
+    data[row][column] = data[row][column].replace(/\./g, ",");
   }
 }
 
